@@ -1,0 +1,72 @@
+<html>
+	<head>
+            <style>
+                a {text-decoration: underline}
+            </style>
+		<script type="text/javascript">
+			var stlViewer;
+		
+			function loadContentAfterScriptsLoad(node) {
+	        	stlViewer = new StlViewer(node);
+	        	stlViewer.render();
+	        };
+			
+	        function loadContent(node) {
+		        /*
+		         * this loadScripts() function call will load the javascript imports
+		         * into this html file 
+		         */
+	        	scriptloader.loadScripts('stlViewer', document, node.id, eventManager);
+	        };
+
+	        /*
+	         * This is called when the student clicks on the save button below in the body
+	         */
+	        function save() {
+		        /*
+		         * calls the save function in stlViewer.js
+		         */
+				stlViewer.save();
+	        }
+		</script>
+	</head>
+
+	<body>
+		<!-- TODO create the html UI that the student will see when they visit the step -->
+		
+		<!-- the promptDiv, responseDiv, saveButtonDiv are not required, they are only provided as an example,
+			 you may delete all of these divs and create the body however you like -->
+		<div id='promptDiv'></div>
+                <div style="display: none" id='responseDiv'><textarea id='studentResponseTextArea' rows='8' cols='80'></textarea></div>
+		<div style="display: none" id='saveButtonDiv'><input type='button' value='Save' onclick='save()'></input></div>
+                
+                <!-- the viewer div holds the 3-D representation of the STL file -->
+                <div id="viewer" style="width:400px;height:400px"></div>
+                
+                <div id ="stlControls">
+                  <input onclick="thingiview.setCameraView('top');" type="button" value="Top" /> 
+                  <input onclick="thingiview.setCameraView('side');" type="button" value="Side" /> 
+                  <input onclick="thingiview.setCameraView('bottom');" type="button" value="Bottom" /> 
+                  <input onclick="thingiview.setCameraView('diagonal');" type="button" value="Diagonal" /> 
+
+                  <input onclick="thingiview.setCameraZoom(5);" type="button" value="Zoom +" /> 
+                  <input onclick="thingiview.setCameraZoom(-5);" type="button" value="Zoom -" /> 
+
+                  <div id="rotation">
+                    Rotation: <input onclick="thingiview.setRotation(true);" type="button" value="on" /> | <input onclick="thingiview.setRotation(false);" type="button" value="off" />
+                  </div>
+                  
+                  <div id="wireframe">
+                    <input onclick="thingiview.setObjectMaterial('wireframe');" type="button" value="Wireframe" /> 
+                    <input onclick="thingiview.setObjectMaterial('solid');" type="button" value="Solid" />
+                  </div>
+                  
+                  Plane: <a onclick="thingiview.setShowPlane(false)">Hide</a> | <a onclick="thingiview.setShowPlane(true)">Show</a><br/>
+                  Background Color: <a onclick="thingiview.setBackgroundColor('#606060')">Gray</a> | <a onclick="thingiview.setBackgroundColor('#ffffff')">White</a> | <a onclick="thingiview.setBackgroundColor('#000000')">Black</a><br/>
+                  Object Color: <a onclick="thingiview.setObjectColor('#ffffff')">White</a> | <a onclick="thingiview.setObjectColor('#aa0000')">Red</a> | <a onclick="thingiview.setObjectColor('#CDFECD')">Green</a> | <a onclick="thingiview.setObjectColor('#C0D8F0')">Blue</a><br/>
+                  
+                </div>
+                
+
+	</body>
+</html>
