@@ -13,7 +13,7 @@ View.prototype.stlViewerDispatcher = function(type,args,obj){
 		 * handles that event
 		 */
 		obj.StlViewerNode.updatePrompt();
-	}
+	} 
 };
 
 /*

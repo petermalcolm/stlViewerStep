@@ -11,7 +11,7 @@ StlViewerNode.authoringToolName = "StlViewer";
  * will be seen by the author when they add a new step to their project to help
  * them understand what kind of step this is
  */
-StlViewerNode.authoringToolDescription = "This is a generic step only used by developers";
+StlViewerNode.authoringToolDescription = "This step renders STL files";
 
 /**
  * This is the constructor for the Node

@@ -32,6 +32,9 @@
 	</head>
 
 	<body>
+            <iframe id="hiddenSTLFileData" style="display: block; width: 100%; height: 200px;">
+            </iframe>
+            
 		<!-- TODO create the html UI that the student will see when they visit the step -->
 		
 		<!-- the promptDiv, responseDiv, saveButtonDiv are not required, they are only provided as an example,
@@ -43,7 +46,12 @@
                 <!-- the viewer div holds the 3-D representation of the STL file -->
                 <div id="viewer" style="width:400px;height:400px"></div>
                 
+                <div id="instructions">Click on the button to choose an STL file on your computer to upload.</div>
                 <div id ="stlControls">
+                  
+                  <input id="filePath" type="file" value="Browse" />
+                  <input id="submit" type="button" value="Submit" onclick="stlViewer.uploadSTLFile();" />
+                  <input onclick="stlViewer.uploadSTLFile();" type="button" value="Upload new STL" /> 
                   <input onclick="thingiview.setCameraView('top');" type="button" value="Top" /> 
                   <input onclick="thingiview.setCameraView('side');" type="button" value="Side" /> 
                   <input onclick="thingiview.setCameraView('bottom');" type="button" value="Bottom" /> 

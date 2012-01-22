@@ -98,6 +98,27 @@ StlViewer.prototype.save = function() {
 	this.states.push(stlViewerState);
 };
 
+/** 
+ *  get file
+ *  translate STL to JSON
+ *  render JSON in viewer
+ *  set JSON as student's state data
+ *  upload STL file to student assets
+ */
+StlViewer.prototype.uploadSTLFile = function() {
+    // get file
+    var filename = $('#filePath').val();
+    if(filename && filename != ''){
+            filename = filename.replace("C:\\fakepath\\", "");  // chrome/IE8 fakepath issue: http://acidmartin.wordpress.com/2009/06/09/the-mystery-of-cfakepath-unveiled/	
+            console.log("filename: " + filename);
+            $('#hiddenSTLFileData').attr('src', filename);
+    }
+    // translate STL to JSON
+    // render JSON in viewer
+    // set JSON as student's state data
+    // upload STL file to student assets
+}
+
 //used to notify scriptloader that this script has finished loading
 if(typeof eventManager != 'undefined'){
 	eventManager.fire('scriptLoaded', 'vle/node/stlViewer/stlViewer.js');
