@@ -111,7 +111,50 @@ StlViewer.prototype.uploadSTLFile = function() {
     if(filename && filename != ''){
             filename = filename.replace("C:\\fakepath\\", "");  // chrome/IE8 fakepath issue: http://acidmartin.wordpress.com/2009/06/09/the-mystery-of-cfakepath-unveiled/	
             console.log("filename: " + filename);
-            $('#hiddenSTLFileData').attr('src', filename);
+            if(!this.view.utils.fileFilter(this.view.allowedStudentAssetExtensions,filename)){
+                this.view.notificationManager.notify('Sorry, the specified file type is not allowed.', 3, 'uploadMessage', 'notificationDiv');
+                return;
+            } else {
+                var frameId = 'assetUploadTarget_' + Math.floor(Math.random() * 1000001);
+                // var frame = document.createElement('iframe');
+                var frame = $('<iframe id="'+frameId+'" type="student" name="'+frameId+'" src="about:blank" style="display:none" />');
+                //(document, 'iframe', {id:frameId, type:'student', name:frameId, src:'about:blank', style:'display:none;'});
+                var postStudentAssetUrl = this.view.getConfig().getConfigParam("studentAssetManagerUrl");
+                // need to get rid of the ?type=StudentAssets&runId=X from the url because we're doing a POST and it will be syntactically incorrect.
+                if (postStudentAssetUrl.indexOf("?") != -1) {
+                    postStudentAssetUrl = postStudentAssetUrl.substr(0,postStudentAssetUrl.indexOf("?"));
+                }
+                // var form = createElement(document, 'form', {id:'assetUploaderFrm', method:'POST', enctype:'multipart/form-data', action:postStudentAssetUrl, target:frameId, style:'display:none;'});
+                var form = $("<form id='assetUploaderFrm' method='POST' enctype='multipart/form-data' action='"+postStudentAssetUrl+"' target='"+frameId+"' style='display:none;' />")
+                //var assetPath = view.utils.getContentPath(view.authoringBaseUrl,view.project.getContentBase());
+                /* create and append elements */
+                $('body').append(frame);
+                $('body').append(form);
+                //form.appendChild(createElement(document,'input',{type:'hidden', name:'path', value:assetPath}));
+                form.append("<input type='hidden' name='type' value='studentAssetManager' />");
+                form.append("<input type='hidden' name='runId' value='"+this.view.config.getConfigParam("runId")+"' />");
+                form.append("<input type='hidden' name='forward' value='assetmanager' />");
+                form.append("<input type='hidden' name='cmd' value='studentAssetUpload' />");
+                //form.appendChild(createElement(document,'input',{type:'hidden', name:'projectId', value:view.portalProjectId}));
+                /* set up the event and callback when the response comes back to the frame */
+                frame.bind('load',this.view.assetUploaded,false);
+                /* change the name attribute to reflect that of the file selected by user */
+                document.getElementById('filePath').setAttribute("name", filename);
+                /* remove file input from the dialog and append it to the frame before submitting, we'll put it back later */
+                var fileInput = document.getElementById('filePath');
+                form.append(fileInput);
+                /* submit hidden form */
+                form.submit();
+                form.remove();
+                
+                
+                // path/studentuploads/[workgroupID]/[file].stl
+                // ajax request to that file
+                // response text will be the raw text of the STL
+                // parse that
+                // display
+            }
+
     }
     // translate STL to JSON
     // render JSON in viewer
