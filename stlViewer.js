@@ -7,6 +7,8 @@ function StlViewer(node) {
 	this.node = node;
 	this.view = node.view;
 	this.content = node.getContent().getContentJSON();
+        
+        this.stlAsString = "";
 	
 	if(node.studentWork != null) {
 		this.states = node.studentWork; 
@@ -50,6 +52,13 @@ StlViewer.prototype.render = function() {
       thingiview.loadArray(eval(voltron));      
 
 };
+
+/**
+ * This function re-renders the contents of the viewer.
+ */
+StlViewer.prototype.updateViewer = function() {
+    
+}
 
 /**
  * This function retrieves the latest student work
@@ -148,12 +157,22 @@ StlViewer.prototype.uploadSTLFile = function() {
                 form.remove();
                 
                 
-                // path/studentuploads/[workgroupID]/[file].stl
+                // Establish the server-side to the STL file: path/studentuploads/[workgroupID]/[file].stl
+                var getStudentUploadsBaseUrl = this.view.config.getConfigParam("getStudentUploadsBaseUrl");
+                var workgroupId = this.view.userAndClassInfo.getWorkgroupId();
+                var fileWWW = getStudentUploadsBaseUrl + "/" + workgroupId + "/" + filename;
+                
+                
                 // ajax request to that file
+                // $.post(fileWWW, null, function(response){$('#hiddenSTLFileData').html(response); window.alert("? got "+fileWWW);});
+                
+                // OR ... try letting thingiview handle the ajax *and* parsing
+                thingiview.loadSTL(fileWWW);
+                
                 // response text will be the raw text of the STL
                 // parse that
                 // display
-            }
+            } // else block (allowed extensions)
 
     }
     // translate STL to JSON
