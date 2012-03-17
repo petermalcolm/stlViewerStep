@@ -187,10 +187,13 @@ StlViewer.prototype.uploadSTLFile = function() {
 
 StlViewer.prototype.displaySTL = function(STLString) {
     var vertsfaces = this.parseSTLString(STLString);
+    // code here from thingiview, line 628
+    // call constructor for Geometry with the array vertsfaces
     breakpointhere = 1;
 }
 
 // build stl's vertex and face arrays
+// this code is from thingiloader.js (function this.parseSTLString)
 StlViewer.prototype.parseSTLString = function(STLString) {
     // var STLString = document.getElementById('hiddenSTLFileData').innerHTML;
     window.alert("inside parseSTLString()");
@@ -252,6 +255,73 @@ StlViewer.prototype.parseSTLString = function(STLString) {
     return [vertexes, faces];
     
 }
+
+// STLGeometry object courtesy of thingiview.js
+
+var STLGeometry = function(stlArray) {
+  // log("building geometry...");
+	THREE.Geometry.call(this);
+
+	var scope = this;
+
+  // var vertexes = stlArray[0];
+  // var normals  = stlArray[1];
+  // var faces    = stlArray[2];
+
+  for (var i=0; i<stlArray[0].length; i++) {    
+    v(stlArray[0][i][0], stlArray[0][i][1], stlArray[0][i][2]);
+  }
+
+  for (var i=0; i<stlArray[1].length; i++) {
+    f3(stlArray[1][i][0], stlArray[1][i][1], stlArray[1][i][2]);
+  }
+
+  function v(x, y, z) {
+    // log("adding vertex: " + x + "," + y + "," + z);
+    scope.vertices.push( new THREE.Vertex( new THREE.Vector3( x, y, z ) ) );
+  }
+
+  function f3(a, b, c) {
+    // log("adding face: " + a + "," + b + "," + c)
+    scope.faces.push( new THREE.Face3( a, b, c ) );
+  }
+
+  // log("computing centroids...");
+  this.computeCentroids();
+  // log("computing normals...");
+  // this.computeNormals();
+	this.computeFaceNormals();
+	this.sortFacesByMaterial();
+  // log("finished building geometry");
+
+  scope.min_x = 0;
+  scope.min_y = 0;
+  scope.min_z = 0;
+  
+  scope.max_x = 0;
+  scope.max_y = 0;
+  scope.max_z = 0;
+  
+  for (var v = 0, vl = scope.vertices.length; v < vl; v ++) {
+		scope.max_x = Math.max(scope.max_x, scope.vertices[v].position.x);
+		scope.max_y = Math.max(scope.max_y, scope.vertices[v].position.y);
+		scope.max_z = Math.max(scope.max_z, scope.vertices[v].position.z);
+		                                    
+		scope.min_x = Math.min(scope.min_x, scope.vertices[v].position.x);
+		scope.min_y = Math.min(scope.min_y, scope.vertices[v].position.y);
+		scope.min_z = Math.min(scope.min_z, scope.vertices[v].position.z);
+}
+
+  scope.center_x = (scope.max_x + scope.min_x)/2;
+  scope.center_y = (scope.max_y + scope.min_y)/2;
+  scope.center_z = (scope.max_z + scope.min_z)/2;
+}
+
+// following two lines of code from thingiview.js
+STLGeometry.prototype = new THREE.Geometry();
+STLGeometry.prototype.constructor = STLGeometry;
+
+
 //used to notify scriptloader that this script has finished loading
 if(typeof eventManager != 'undefined'){
 	eventManager.fire('scriptLoaded', 'vle/node/stlViewer/stlViewer.js');
