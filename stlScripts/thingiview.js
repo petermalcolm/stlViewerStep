@@ -1,3 +1,7 @@
+// custom variable for the thingiloader
+var thingiurlbase = "stlScripts";
+
+
 Thingiview = function(containerId) {
   scope = this;
   
@@ -814,9 +818,10 @@ function log(msg) {
   }
 }
 
+
 /* A facade for the Web Worker API that fakes it in case it's missing. 
-Good when web workers aren't supported in the browser, but it's still fast enough, so execution doesn't hang too badly (e.g. Opera 10.5).
-By Stefan Wehrmeyer, licensed under MIT
+ * Good when web workers aren't supported in the browser, but it's still fast enough, so execution doesn't hang too badly (e.g. Opera 10.5).
+ * By Stefan Wehrmeyer, licensed under MIT
 */
 
 var WorkerFacade;
@@ -878,6 +883,8 @@ if(!!window.Worker){
         return that;
     }());
 }
+
+
 
 /* Then just use WorkerFacade instead of Worker (or alias it)
 

@@ -14,9 +14,10 @@ var studentVLEScripts = [
 	'vle/jquery/js/jquery-1.6.1.min.js',
 	'vle/jquery/js/jquery-ui-1.8.7.custom.min.js',
         
-        'vle/node/stlViewer/stlScripts/plane.js',      // render planes for STLs
-        'vle/node/stlViewer/stlScripts/Three.js',      // render 3-D objects
-        'vle/node/stlViewer/stlScripts/thingiview.js'  // render STLs
+        'vle/node/stlViewer/stlScripts/plane.js',        // render planes for STLs
+        'vle/node/stlViewer/stlScripts/Three.js',        // render 3-D objects
+        'vle/node/stlViewer/stlScripts/thingiview.js'   // render STLs
+    //     'vle/node/stlViewer/stlScripts/thingiloader.js'  // load STLs - this file gets loaded dynamically (?)
 ];
 
 //the scripts used in the authoring tool
@@ -39,6 +40,7 @@ var dependencies = [
         
         {child:"vle/node/stlViewer/stlScripts/plane.js", parent:["vle/node/stlViewer/stlScripts/Three.js"]},
         {child:"vle/node/stlViewer/stlScripts/thingiview.js", parent:["vle/node/stlViewer/stlScripts/Three.js"]},
+        {child:"vle/node/stlViewer/stlScripts/thingiloader.js", parent:["vle/node/stlViewer/stlScripts/thingiview.js"]}
 ];
 
 var nodeClasses = [
