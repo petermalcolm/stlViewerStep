@@ -1,0 +1,14 @@
+Minor modifications to Tony Buser's Thingiview.js
+(https://github.com/tbuser/thingiview.js)
+to allow dynamic 3D display of STL file in WISEngineering and WISE4.
+
+This is a step-type, so the entire directory drops into:
+$CATALINA_HOME/webapps/vlewrapper/vle/node/
+and, with some minor modifications to 
+$CATALINA_HOME/webapps/vlewrapper/vle/node/setupNodes.js
+to include this path, the new step type will work.
+(there are still a few bugs to work out...)
+
+More info on customizeable step types for WISE4 / WISEngineering is here:
+https://github.com/WISE-Community/WISE-StepTypeCreator
+

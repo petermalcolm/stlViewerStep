@@ -155,6 +155,18 @@ StlViewer.prototype.uploadSTLFile = function() {
                 form.append(fileInput);
                 /* submit hidden form */
                 form.submit();
+                
+                /* put the file input back and remove form now that the form has been submitted */
+                $('#submit').before(fileInput);
+                // document.body.removeChild(form);
+                
+                // reset the form -- no idea how to do this
+                // $('#filePath').reset();
+                // document.getElementById('filePath').form.reset();
+                
+                // let's try a simple reset:
+                // form.reset();
+                
                 form.remove();
                 
                 
@@ -165,7 +177,7 @@ StlViewer.prototype.uploadSTLFile = function() {
                 
                 
                 // ajax request to that file
-                $.post(fileWWW, null, function(response){ stlLoadedCallback(response); });
+                $.post(fileWWW, null, function(response){stlLoadedCallback(response);});
                 
                 
                 stlLoadedCallback = function(serverResponse) {
@@ -189,6 +201,8 @@ StlViewer.prototype.displaySTL = function(STLString) {
     var vertsfaces = this.parseSTLString(STLString);
     // code here from thingiview, line 628
     // call constructor for Geometry with the array vertsfaces
+    thingiview.loadArray(eval(vertsfaces));      
+
     breakpointhere = 1;
 }
 
@@ -196,7 +210,7 @@ StlViewer.prototype.displaySTL = function(STLString) {
 // this code is from thingiloader.js (function this.parseSTLString)
 StlViewer.prototype.parseSTLString = function(STLString) {
     // var STLString = document.getElementById('hiddenSTLFileData').innerHTML;
-    window.alert("inside parseSTLString()");
+    // window.alert("inside parseSTLString()");
     
     var vertexes  = [];
     var faces     = [];
@@ -257,7 +271,7 @@ StlViewer.prototype.parseSTLString = function(STLString) {
 }
 
 // STLGeometry object courtesy of thingiview.js
-
+/*
 var STLGeometry = function(stlArray) {
   // log("building geometry...");
 	THREE.Geometry.call(this);
@@ -317,9 +331,11 @@ var STLGeometry = function(stlArray) {
   scope.center_z = (scope.max_z + scope.min_z)/2;
 }
 
+*/
+
 // following two lines of code from thingiview.js
-STLGeometry.prototype = new THREE.Geometry();
-STLGeometry.prototype.constructor = STLGeometry;
+// STLGeometry.prototype = new THREE.Geometry();
+// STLGeometry.prototype.constructor = STLGeometry;
 
 
 //used to notify scriptloader that this script has finished loading
